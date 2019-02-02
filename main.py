@@ -87,14 +87,16 @@ while True:
     time.sleep(1)
     rc = proc.poll()
 
+
+    curr_time = time.time()
+    if curr_time - last_notify > 60*30:
+        notification(our_name, f"Process {pid} still running...")
+        last_notify = curr_time
+
     if rc is None:
         # still running!
         continue
 
-    curr_time = time.time()
-    if curr_time - last_notify > 30 * 60:
-        notification(our_name, f"Process {pid} still running...")
-
     # otherwise, the process has finished!
-    notification(our_name, f"Process completed with return code {rc}")
+    notification(our_name, f"Process {pid} completed with return code {rc}")
     break
